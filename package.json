@@ -1,0 +1,41 @@
+{
+  "name": "project_cpsc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier \"src/**/*.{js, html}\" --write",
+    "lint": "eslint \"src/**/*.{js, jsx}\" --quiet",
+    "start": "webpack-dev-server --watch",
+    "start-server": "nodemon server/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "css-loader": "^3.5.3",
+    "eslint-config-prettier": "^6.11.0",
+    "express": "^4.17.1",
+    "file-loader": "^6.0.0",
+    "nodemon": "^2.0.3",
+    "pg": "^8.0.3",
+    "prettier": "^2.0.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.2",
+    "style-loader": "^1.2.0",
+    "url-loader": "^4.1.0",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "babel-loader": "^8.1.0",
+    "eslint": "^7.3.1",
+    "html-webpack-plugin": "^4.2.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "proxy": "http://localhost:5000"
+}
