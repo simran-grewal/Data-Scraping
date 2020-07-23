@@ -33,3 +33,11 @@ def hello_world():
 def get_name():
     data = get_data(db)
     return json.dumps({"insta_data": data, "name": "Simran"})
+
+
+@app.route('/setname', methods=["POST"])
+def set_name():
+    print(request)
+    print(request.data)
+    print(json.loads(request.data))
+    return json.dumps({"done": "d"})
