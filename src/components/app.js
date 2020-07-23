@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { Button } from "semantic-ui-react";
+import { Button, Input } from "semantic-ui-react";
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
       loading: true,
+      input: ""
     };
   }
   componentDidMount() {
@@ -31,24 +32,43 @@ class App extends Component {
   }
 
   get_post(posts) {
-    console.log("Posts = ", posts);
     return posts.map((post) => {
       return <p key={post._id}>{post._id}</p>;
     });
   }
+
+  setInputText(value) {
+    this.setState({
+      input: value
+    })
+  }
+  search() {
+    fetch("http://localhost:5000/setname", {
+      method: "POST",
+      credentials: 'same-origin',
+      body: JSON.stringify({ "name": this.state.input })
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+        return response.json();
+      })
+      .then((res) => {
+        console.log(res);
+        this.setState({ input: "" })
+      })
+      .catch((err) => console.log(err));
+  }
   render() {
     return (
-      <div>
+      <div className="app-container">
         {this.state.loading ? (
           <div>Loading...</div>
         ) : (
-            <div>
-              <button>
-                Login
-            </button>
-              <Button primary>Primary</Button>
-              {this.state.name}
-              {this.get_post(this.state.posts)}
+            <div className="app-search">
+              <Input onChange={(e) => { this.setInputText(e.target.value) }} focus placeholder='Search...' />
+              <Button primary onClick={() => { this.search() }}>Search</Button>
             </div>
           )}
       </div>

@@ -6,3 +6,14 @@
 
 body {
 }
+
+.app-container {
+  display: flex;
+  padding: 20px;
+}
+
+.app-search {
+  display: flex;
+  justify-content: space-between;
+  width: 30%;
+}
