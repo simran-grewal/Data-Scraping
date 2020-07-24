@@ -37,7 +37,6 @@ def get_name():
 
 @app.route('/setname', methods=["POST"])
 def set_name():
-    print(request)
-    print(request.data)
-    print(json.loads(request.data))
+    name = json.loads(request.data)
+    print(name["name"])
     return json.dumps({"done": "d"})
