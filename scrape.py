@@ -23,17 +23,21 @@ class InstagramBot():
         emailInput.send_keys(self.email)
         passwordInput.send_keys(self.password)
         passwordInput.send_keys(Keys.ENTER)
-        time.sleep(4)
+        time.sleep(2)
         return self.search(name)
 
     def search(self, name):
         links = []
+        hash = name
+        if(name[0] == '#'):
+            hash = f'explore/tags/{name[1:]}'
+
         search_text_box = self.browser.find_element_by_xpath(
             '//input[@placeholder = "Search"]')
         search_text_box.send_keys(name)
+        time.sleep(1)
+        self.browser.find_element_by_xpath(f'//a[@href = "/{hash}/"]').click()
         time.sleep(3)
-        self.browser.find_element_by_xpath(f'//a[@href = "/{name}/"]').click()
-        time.sleep(2)
         #images = self.browser.find_element_by_xpath('//img[@class="FFVAD"]')
         images = self.browser.find_elements_by_xpath(
             '//div[@class="KL4Bh"]/img[@src]')
