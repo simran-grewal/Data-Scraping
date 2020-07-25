@@ -11,14 +11,19 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: [/\.js$/, /\.jsx$/],
         exclude: /node_modules/,
         loader: "babel-loader"
+      },
+      {
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+        test: /\.scss$/
       },
       {
         use: ['style-loader', 'css-loader'],
         test: /\.css/
       },
+
       {
         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
         loader: require.resolve("url-loader"),

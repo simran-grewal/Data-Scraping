@@ -21,21 +21,13 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-@app.route('/')
-@cross_origin()
-def hello_world():
-    return 'Hello, World!'
-
-
-@app.route('/getname')
-# def get_name():
-#     return jsonify({"name": "Simranjt Singh....This is from Server"})
 @cross_origin()
 def get_name():
     data = get_data(db)
     return json.dumps({"insta_data": data, "name": "Simran"})
 
 
+@cross_origin()
 @app.route('/get_posts', methods=["POST"])
 def set_name():
     name = json.loads(request.data)
