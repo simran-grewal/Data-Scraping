@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Input, Grid, Image, Search, Loader, Segment } from "semantic-ui-react";
-
+import Lightbox from 'react-image-lightbox';
+import 'react-image-lightbox/style.css';
 
 class App extends Component {
   constructor(props) {
@@ -9,6 +10,8 @@ class App extends Component {
       loading: false,
       images: [],
       imput: "",
+      photoIndex: 0,
+      isOpen: false,
     };
   }
   // componentDidMount() {
@@ -64,15 +67,21 @@ class App extends Component {
       .catch((err) => console.log(err));
   }
 
+  showImage(image) {
+    console.log(image)
+    const { images } = this.state
+    this.setState({ isOpen: true, photoIndex: images.indexOf(image) })
+  }
+
   getImages(images) {
     return images.map((image) => (
       <Grid.Column style={{ marginBottom: "3rem" }} key={image}>
-        <Image width="three" src={image} />
+        <Image style={{ cursor: "pointer" }} onClick={() => this.showImage(image)} width="three" src={image} />
       </Grid.Column>
     ))
   }
   render() {
-    const image = "https://instagram.fyvr4-1.fna.fbcdn.net/v/t51.2885-15/sh0.08/e35/c0.200.720.720a/s640x640/91079612_652551572188027_3532362714262387850_n.jpg?_nc_ht=instagram.fyvr4-1.fna.fbcdn.net&_nc_cat=107&_nc_ohc=z1F44o7_8xwAX_0Oe3s&oh=6a8f92c46d00d1a34a36432ebb3e8d2b&oe=5F1D6725"
+    const { photoIndex, isOpen, images } = this.state;
     return (
       <div>
         <div>
@@ -88,6 +97,25 @@ class App extends Component {
                   <Input value={this.state.input} onChange={(e) => { this.setInputText(e.target.value) }} focus placeholder='Search...' />
                   <Button style={{ width: "12rem" }} primary onClick={() => { this.search() }}>Search</Button>
                 </div>
+                {isOpen && (
+                  <Lightbox
+                    mainSrc={images[photoIndex]}
+                    nextSrc={images[(photoIndex + 1) % images.length]}
+                    prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+                    onCloseRequest={() => this.setState({ isOpen: false })}
+                    onMovePrevRequest={() =>
+                      this.setState({
+                        photoIndex: (photoIndex + images.length - 1) % images.length,
+                      })
+                    }
+                    onMoveNextRequest={() =>
+                      this.setState({
+                        photoIndex: (photoIndex + 1) % images.length,
+                      })
+                    }
+                  />
+                )
+                }
                 <Grid>
                   <Grid.Row columns={4}>
                     {Array.isArray(this.state.images) ? this.getImages(this.state.images) : <div>Images Not Found</div>}
