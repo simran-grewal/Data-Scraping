@@ -3,12 +3,13 @@ from flask_pymongo import PyMongo
 from flask import request
 from flask import jsonify
 from flask_cors import CORS, cross_origin
-from scrape import add
+from scrape import InstagramBot
 from mongodb import get_data
 import pymongo
 from pymongo import MongoClient
 import json
 from flask_json import json_response
+
 
 client = MongoClient('localhost', 27017)
 
@@ -35,8 +36,10 @@ def get_name():
     return json.dumps({"insta_data": data, "name": "Simran"})
 
 
-@app.route('/setname', methods=["POST"])
+@app.route('/get_posts', methods=["POST"])
 def set_name():
     name = json.loads(request.data)
     print(name["name"])
-    return json.dumps({"done": "d"})
+    bot = InstagramBot('7783250627', 'Langara!')
+    images = bot.signIn(name["name"])
+    return json.dumps({"images": images})
