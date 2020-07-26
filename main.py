@@ -1,19 +1,19 @@
 from flask import Flask, make_response
-from flask_pymongo import PyMongo
 from flask import request
 from flask import jsonify
 from flask_cors import CORS, cross_origin
-from scrape import InstagramBot
-from mongodb import get_data
 import pymongo
 from pymongo import MongoClient
 import json
 from flask_json import json_response
+from pymongo import MongoClient
+from mongodb import get_images
 
 
 client = MongoClient('localhost', 27017)
+instagram = client.instagram
+user = instagram.user
 
-db = client.test
 
 app = Flask(__name__)
 
@@ -22,16 +22,14 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @cross_origin()
-def get_name():
-    data = get_data(db)
-    return json.dumps({"insta_data": data, "name": "Simran"})
-
-
-@cross_origin()
 @app.route('/get_posts', methods=["POST"])
 def set_name():
-    name = json.loads(request.data)
-    print(name["name"])
-    bot = InstagramBot('7783250627', 'Langara!')
-    images = bot.signIn(name["name"])
+    name = json.loads(request.data)["name"]
+    images = get_images(user, name)
     return json.dumps({"images": images})
+
+
+# @cross_origin()
+# def get_name():
+#     data = get_data(db)
+#     return json.dumps({"insta_data": data, "name": "Simran"})

@@ -8,7 +8,7 @@
     display: flex;
     padding: 20px;
     flex-direction: column;
-    align-items: center;
+    // align-items: center;
   }
   
   .app-search {
@@ -16,5 +16,9 @@
     justify-content: center;
     margin-bottom: 2rem;
   }
-  
-  
+  .app-search__container {
+      display: flex;
+  }
+  .app-search__button-container {
+      display: flex;
+  }

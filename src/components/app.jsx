@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Input, Grid, Image } from "semantic-ui-react";
+import { Button, Input, Grid, Image, Header } from "semantic-ui-react";
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import Loader from './loader.jsx'
@@ -53,6 +53,13 @@ class App extends Component {
   }
 
   getImages(images) {
+    if (images.length == 0) {
+      return (
+        <Header color={"grey"}>
+          Search for a Instagram profile or a hashtag
+        </Header>
+      )
+    }
     return images.map((image) => (
       <Grid.Column style={{ marginBottom: "3rem" }} key={image}>
         <div onClick={() => this.showImage(image)} className="image-animation__container-block">
@@ -93,12 +100,17 @@ class App extends Component {
       <div>
         <div className="app-container">
           <div className="app-search">
-            <Input value={this.state.input} onChange={(e) => { this.setInputText(e.target.value) }} focus placeholder='Search...' />
-            <Button style={{ width: "12rem" }} primary onClick={() => { this.search() }}>Search</Button>
+            <div className="app-search__container">
+              <Input value={this.state.input} onChange={(e) => { this.setInputText(e.target.value) }} focus placeholder='Search...' />
+              <Button style={{ width: '10rem' }} primary onClick={() => { this.search() }}>Search</Button>
+            </div>
+            <div className="app-search__button-container">
+              <Button basic color="red" onClick={() => { this.search() }}>Clear DB</Button>
+            </div>
           </div>
 
           {this.state.loading ? <Loader /> : (
-            <div>
+            <div style={{ alignSelf: "center" }}>
               {isOpen && this.showLightBox(photoIndex, images)}
               <Grid>
                 <Grid.Row columns={4}>
