@@ -6,7 +6,6 @@ import pymongo
 from pymongo import MongoClient
 import json
 from flask_json import json_response
-from pymongo import MongoClient
 from mongodb import get_images
 
 
