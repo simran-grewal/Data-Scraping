@@ -4,7 +4,7 @@
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes
 
-### Clone the Repository
+### First of all, Clone the Repository
 
 ### Prerequisites
 What things you need to install inorder to run frontend server
@@ -13,16 +13,16 @@ What things you need to install inorder to run frontend server
 2> npm
 3> yarn
 ```
-### To run frontend server
+### To run the frontend server
 ```
 Open the terminal and go inside the project directory
 ```
-#### Run following two commands
+#### Run the following two commands
 ```
 yarn
 npm start
 ```
-### To run Backend server
+### To run the Backend server
 ```In the first parameter of webdriver.Chrome (inside scrape.py) put the relative path of ChromeDriver i.e webdriver.Chrome([your path],) ```
 ```
 Open one more terminal(don't close the 1st one) and go inside the project directory
