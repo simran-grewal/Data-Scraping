@@ -28,6 +28,11 @@ def set_name():
     return json.dumps({"images": images})
 
 
+@app.route('/clear_db', methods=["GET"])
+def clear_db():
+    return instagram.drop_collection('user')
+
+
 # @cross_origin()
 # def get_name():
 #     data = get_data(db)

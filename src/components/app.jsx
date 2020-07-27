@@ -12,12 +12,20 @@ class App extends Component {
       imput: "",
       photoIndex: 0,
       isOpen: false,
+      isCleaning: false,
+      isInputEmpty: true
     };
   }
 
   setInputText(value) {
     this.setState({
       input: value
+    }, () => {
+      if (this.state.input.length > 0) {
+        this.setState({ isInputEmpty: false })
+      } else {
+        this.setState({ isInputEmpty: true })
+      }
     })
   }
 
@@ -35,7 +43,7 @@ class App extends Component {
         return response.json();
       })
       .then((res) => {
-        this.setState({ images: res.images, input: "", loading: false })
+        this.setState({ images: res.images, input: "", loading: false, isInputEmpty: true })
       })
       .catch((err) => {
         console.log(err)
@@ -93,6 +101,25 @@ class App extends Component {
     )
   }
 
+  clearDatabase() {
+    this.setState({ isCleaning: true })
+    fetch("http://localhost:5000/clear_db", {
+      method: "GET",
+      credentials: 'same-origin',
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      return response.json();
+    })
+      .then((res) => {
+        this.setState({ isCleaning: false })
+      })
+      .catch((err) => {
+        console.log(err)
+        this.setState({ isCleaning: false })
+      });
+  }
 
   render() {
     const { photoIndex, isOpen, images } = this.state;
@@ -102,10 +129,10 @@ class App extends Component {
           <div className="app-search">
             <div className="app-search__container">
               <Input value={this.state.input} onChange={(e) => { this.setInputText(e.target.value) }} focus placeholder='Search...' />
-              <Button style={{ width: '10rem' }} primary onClick={() => { this.search() }}>Search</Button>
+              <Button disabled={this.state.isInputEmpty && true} loading={this.state.loading && true} style={{ width: '10rem' }} primary onClick={() => { this.search() }}>Search</Button>
             </div>
             <div className="app-search__button-container">
-              <Button basic color="red" onClick={() => { this.search() }}>Clear DB</Button>
+              <Button loading={this.state.isCleaning && true} negative color="red" onClick={() => { this.clearDatabase() }} style={{ width: '10rem' }}>Clear DB</Button>
             </div>
           </div>
 
