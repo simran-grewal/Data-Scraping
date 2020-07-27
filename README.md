@@ -32,9 +32,11 @@ Open one more terminal(don't close the 1st one) and go inside the project direct
 ```
 https://flask.palletsprojects.com/en/1.1.x/installation/
 ```
-#### Install Flask
+
+
+#### Install the requirement.txt and run the application
 ```
-$ pip install Flask
+$ pip install -r requirements.txt
 $ export FLASK_APP=main.py
 $ flask run
 ```
