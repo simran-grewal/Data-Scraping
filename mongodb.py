@@ -13,7 +13,14 @@ from scrape import InstagramBot
 
 def run_selenium(name):
     bot = InstagramBot('7783250627', 'Langara!')
-    images = bot.signIn(name)
+    list_of_profile_and_hashtags = name.split(' ')
+
+    if(len(list_of_profile_and_hashtags) == 1):
+        images = bot.search_by_only_name_or_hashtag(
+            list_of_profile_and_hashtags[0])
+    else:
+        images = bot.search(
+            list_of_profile_and_hashtags[0:1], list_of_profile_and_hashtags[1:])
     return images
 
 
