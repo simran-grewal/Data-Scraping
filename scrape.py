@@ -6,7 +6,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.action_chains import ActionChains
 import time
+
 
 
 class InstagramBot():
@@ -69,6 +71,8 @@ class InstagramBot():
         return links
 
     def search(self, profiles, hashTags):
+        print(profiles)
+        print(hashTags)
         self.signIn()
         links = []
 
@@ -86,6 +90,7 @@ class InstagramBot():
                     print("Timed out waiting for page to load")
                 # open first pic
                 try:
+                    time.sleep(5)
                     WebDriverWait(self.browser, self.timeout).until(
                         EC.presence_of_element_located((By.XPATH, f'//article//a'))).click()
                 except TimeoutException:
@@ -101,7 +106,7 @@ class InstagramBot():
                         list_of_hash_tag = []
                         for tag in list_of_caption:
                             for hash_tag in hashTags:
-                                if tag.text == hash_tag:
+                                if tag.text == '#' + hash_tag:
                                     # comparing the hashtags of a image with the hashtag we sent
                                     # if there is a match then we add the link of a image in a list
                                     images = self.browser.find_elements_by_xpath(
@@ -119,7 +124,13 @@ class InstagramBot():
                     except NoSuchElementException:
                         break
                     count += 1
-
+                try:
+                    action = ActionChains(self.browser)
+                    action.move_by_offset(int(0), int(0))
+                    action.click().perform()
+                except NoSuchElementException:
+                    print("couldnt find")
+                 
             except TimeoutException:
                 print("Timed out waiting for page to load")
         return links
