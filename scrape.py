@@ -36,40 +36,6 @@ class InstagramBot():
         except TimeoutException:
             print("Timed out waiting for page to load")
 
-    def search_by_only_name_or_hashtag(self, name):
-        self.signIn()
-        links = []
-        hash = name
-        if(name[0] == '#'):
-            hash = f'explore/tags/{name[1:]}'
-        try:
-            WebDriverWait(self.browser, self.timeout).until(
-                EC.presence_of_element_located((By.XPATH, '//input[@placeholder = "Search"]')))
-            search_text_box = self.browser.find_element_by_xpath(
-                '//input[@placeholder = "Search"]')
-            search_text_box.send_keys(name)
-
-            try:
-                WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
-                    (By.XPATH, f'//a[@href = "/{hash}/"]'))).click()
-            except TimeoutException:
-                print("Timed out waiting for page to load")
-
-            try:
-                WebDriverWait(self.browser, self.timeout).until(EC.presence_of_all_elements_located(
-                    (By.XPATH, '//div[@class="KL4Bh"]/img[@src]')
-                ))
-                images = self.browser.find_elements_by_xpath(
-                    '//div[@class="KL4Bh"]/img[@src]')
-                for image in images:
-                    links.append(image.get_attribute("src"))
-
-            except TimeoutException:
-                print("Timed out waiting for page to load")
-        except TimeoutException:
-            print("Timed out waiting for page to load")
-        return links
-
     def search(self, profiles, hashTags):
         print(profiles)
         print(hashTags)
