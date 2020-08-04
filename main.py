@@ -6,7 +6,7 @@ import pymongo
 from pymongo import MongoClient
 import json
 from flask_json import json_response
-from mongodb import get_images
+from function import get_images
 
 
 client = MongoClient('localhost', 27017)
@@ -24,7 +24,9 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/get_posts', methods=["POST"])
 def set_name():
     name = json.loads(request.data)["name"]
-    images = get_images(user, name)
+    tags = json.loads(request.data)["tags"]
+    images = get_images(user, name, tags)
+    print(images)
     return json.dumps({"images": images})
 
 

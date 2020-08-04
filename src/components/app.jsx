@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Input, Grid, Image, Header } from "semantic-ui-react";
+import { Button, Input, Grid, Image } from "semantic-ui-react";
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import Loader from './loader.jsx'
@@ -9,32 +9,31 @@ class App extends Component {
     this.state = {
       loading: false,
       images: [],
-      imput: "",
+      user: "",
+      tags:"",
       photoIndex: 0,
       isOpen: false,
-      isCleaning: false,
-      isInputEmpty: true
     };
   }
 
   setInputText(value) {
     this.setState({
-      input: value
-    }, () => {
-      if (this.state.input.length > 0) {
-        this.setState({ isInputEmpty: false })
-      } else {
-        this.setState({ isInputEmpty: true })
-      }
+      user: value
     })
   }
+  setTagText(value) {
+    this.setState({
+      tags: value
+    })
+  }
+  
 
   search() {
     this.setState({ loading: true })
     fetch("http://localhost:5000/get_posts", {
       method: "POST",
       credentials: 'same-origin',
-      body: JSON.stringify({ "name": this.state.input })
+      body: JSON.stringify({ "name": this.state.user, "tags":this.state.tags })
     })
       .then((response) => {
         if (!response.ok) {
@@ -43,7 +42,7 @@ class App extends Component {
         return response.json();
       })
       .then((res) => {
-        this.setState({ images: res.images, input: "", loading: false, isInputEmpty: true })
+        this.setState({ images: res.images, input: "", loading: false })
       })
       .catch((err) => {
         console.log(err)
@@ -61,13 +60,6 @@ class App extends Component {
   }
 
   getImages(images) {
-    if (images.length == 0) {
-      return (
-        <Header color={"grey"}>
-          Search for a Instagram profile or a hashtag
-        </Header>
-      )
-    }
     return images.map((image) => (
       <Grid.Column style={{ marginBottom: "3rem" }} key={image}>
         <div onClick={() => this.showImage(image)} className="image-animation__container-block">
@@ -101,25 +93,6 @@ class App extends Component {
     )
   }
 
-  clearDatabase() {
-    this.setState({ isCleaning: true })
-    fetch("http://localhost:5000/clear_db", {
-      method: "GET",
-      credentials: 'same-origin',
-    }).then((response) => {
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      return response.json();
-    })
-      .then((res) => {
-        this.setState({ isCleaning: false })
-      })
-      .catch((err) => {
-        console.log(err)
-        this.setState({ isCleaning: false })
-      });
-  }
 
   render() {
     const { photoIndex, isOpen, images } = this.state;
@@ -127,17 +100,19 @@ class App extends Component {
       <div>
         <div className="app-container">
           <div className="app-search">
-            <div className="app-search__container">
-              <Input value={this.state.input} onChange={(e) => { this.setInputText(e.target.value) }} focus placeholder='Search...' />
-              <Button disabled={this.state.isInputEmpty && true} loading={this.state.loading && true} style={{ width: '10rem' }} primary onClick={() => { this.search() }}>Search</Button>
-            </div>
-            <div className="app-search__button-container">
-              <Button loading={this.state.isCleaning && true} negative color="red" onClick={() => { this.clearDatabase() }} style={{ width: '10rem' }}>Clear DB</Button>
-            </div>
+            {/* <label>Enter Usernames seperated by space</label> */}
+            <Input value={this.state.user} onChange={(e) => { this.setInputText(e.target.value) }} focus placeholder='Enter Usernames seperated by space' />
+          </div>
+          <div className="app-search">
+            {/* <label>Enter Hashtags seperated by space</label> */}
+            <Input value={this.state.tag} onChange={(e) => { this.setTagText(e.target.value) }} focus placeholder="Enter Hashtags seperated by space"/>
+          </div>
+          <div className="app-search">
+            <Button style={{ width: "12rem" }} primary onClick={() => { this.search() }}>Search</Button>
           </div>
 
           {this.state.loading ? <Loader /> : (
-            <div style={{ alignSelf: "center" }}>
+            <div>
               {isOpen && this.showLightBox(photoIndex, images)}
               <Grid>
                 <Grid.Row columns={4}>
