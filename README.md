@@ -45,3 +45,6 @@ $ flask run
 ```
 http://localhost:8080/
 ```
+![git_bot_1](https://user-images.githubusercontent.com/19415171/89256512-20046580-d5d9-11ea-9016-26a14708dea7.gif)
+![gif_bot_2](https://user-images.githubusercontent.com/19415171/89256513-21ce2900-d5d9-11ea-8f70-8a93c34a9780.gif)
+
