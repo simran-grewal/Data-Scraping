@@ -23,8 +23,12 @@ yarn
 npm start
 ```
 ### To run the Backend server
-```In the first parameter of webdriver.Chrome (inside scrape.py) put the relative path of ChromeDriver i.e webdriver.Chrome([your path],) ```
-```Pass your instagram id and password as the arguments in the InstagramBot function in function.py i.e InstagramBot([user_name], [password])```
+```
+In the first parameter of webdriver.Chrome (inside scrape.py) put the relative path of ChromeDriver i.e webdriver.Chrome([your path],) 
+```
+```
+Pass your instagram id and password as the arguments in the InstagramBot function in function.py i.e InstagramBot([user_name], [password])
+```
 ```
 Open one more terminal(don't close the 1st one) and go inside the project directory
 ```
